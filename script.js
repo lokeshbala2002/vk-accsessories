@@ -332,8 +332,7 @@ function placeOrder(){
 
   // Validate required fields
   const requiredFields = [
-    { id: 'co-fname', name: 'First Name' },
-    { id: 'co-lname', name: 'Last Name' },
+    { id: 'co-fullname', name: 'Full Name' },
     { id: 'co-email', name: 'Email' },
     { id: 'co-phone', name: 'Phone Number' },
     { id: 'co-addr', name: 'Address' },
@@ -373,8 +372,7 @@ function placeOrder(){
   const orderData = {
     orderId: 'VK' + Date.now().toString().slice(-6),
     customer: {
-      firstName: document.getElementById('co-fname').value.trim(),
-      lastName: document.getElementById('co-lname').value.trim(),
+      fullName: document.getElementById('co-fullname').value.trim(),
       email: email,
       phone: phone
     },
@@ -420,7 +418,7 @@ function placeOrder(){
       document.getElementById('success-order-id').textContent = 'Order ID: #' + orderData.orderId;
 
       // Redirect to WhatsApp
-      const whatsappMessage = `Hello! I've placed an order on VK Accessories.\n\nOrder ID: ${orderData.orderId}\nCustomer: ${orderData.customer.firstName} ${orderData.customer.lastName}\nPhone: ${orderData.customer.phone}\nEmail: ${orderData.customer.email}\n\nTotal: ₹${orderData.orderSummary.total}\n\nPlease confirm my order.`;
+      const whatsappMessage = `Hello! I've placed an order on VK Accessories.\n\nOrder ID: ${orderData.orderId}\nCustomer: ${orderData.customer.fullName}\nPhone: ${orderData.customer.phone}\nEmail: ${orderData.customer.email}\n\nTotal: ₹${orderData.orderSummary.total}\n\nPlease confirm my order.`;
       const whatsappUrl = `https://wa.me/918270534479?text=${encodeURIComponent(whatsappMessage)}`;
       window.open(whatsappUrl, '_blank');
 
