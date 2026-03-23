@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>VK Accessories</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Urbanist:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY_HERE", // Get this from Firebase Console > Project Settings > General > Your apps > Web app config
+    authDomain: "vk-accessories-bc145.firebaseapp.com",
+    projectId: "vk-accessories-bc145",
+    storageBucket: "vk-accessories-bc145.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID", // Get from Firebase Console
+    appId: "YOUR_APP_ID" // Get from Firebase Console
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Make db available globally
+  window.db = db;
+  window.addDoc = addDoc;
+  window.collection = collection;
+</script>
+</head>
+<body>
+
+<!-- ANNOUNCE -->
+<div class="announce">Free shipping above ₹1,499 &nbsp;|&nbsp; <span>VKFIRST — 10% off your first order</span></div>
+
+<!-- HEADER (shared) -->
+<header id="main-header">
+  <div class="h-top">
+    <div class="pincode" onclick="openPincodeModal()">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      <span id="pin-label">Update Delivery Pincode</span>
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="logo" onclick="navigate('home')">VK Accessories</div>
+    <div class="h-icons">
+      <button class="icon-btn" onclick="toggleSearch()" title="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+      <button class="icon-btn" title="Wishlist" onclick="showToast('Wishlist: '+wishlist.size+' item(s)')"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+      <button class="icon-btn" onclick="navigate('cart')" title="Cart"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="badge" id="cart-badge">0</span></button>
+    </div>
+  </div>
+  <div id="search-bar" style="display:none;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:10px;border:1.5px solid var(--border);border-radius:8px;padding:8px 14px">
+      <svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:#999;stroke-width:2;flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" placeholder="Search jewellery…" oninput="handleSearch(event)" style="border:none;outline:none;font-size:14px;font-family:var(--serif);width:100%;background:transparent"/>
+    </div>
+  </div>
+  <nav class="nav">
+    <button class="nav-btn" onclick="goListing('Necklaces')">Necklaces <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <button class="nav-btn" onclick="goListing('Bangles')">Bangles <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <button class="nav-btn" onclick="goListing('Watches')">Watches <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <button class="nav-btn" onclick="goListing('Bracelets')">Bracelets <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <button class="nav-btn" onclick="goListing('Rings')">Rings <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <div class="nav-div"></div>
+    <button class="nav-btn" onclick="navigate('home');setTimeout(()=>document.getElementById('offers')?.scrollIntoView({behavior:'smooth'}),200)">Offers</button>
+  </nav>
+</header>
+
+<!-- ════════════════════════ PAGE: HOME ════════════════════════ -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <img src="https://www.figma.com/api/mcp/asset/5b75360e-a539-4057-986f-13476575488b" alt="Hero"/>
+    <div class="hero-ov"></div>
+    <div class="hero-txt">
+      <h1>Jewellery that tells your story</h1>
+      <p>Handcrafted pieces for every occasion — weddings, parties, or everyday elegance.</p>
+      <button class="btn btn-white" onclick="goListing('All')">Shop Now</button>
+    </div>
+  </section>
+
+  <section class="section" id="categories">
+    <div class="sec-head"><h2>Shop by Category</h2><p>Discover our curated collections</p></div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="goListing('Necklaces')"><div class="cat-img"><img src="https://www.figma.com/api/mcp/asset/19c628d9-3a79-479a-bdee-b76444263b91" alt="Necklaces"/></div><h3>Necklaces</h3></div>
+      <div class="cat-card" onclick="goListing('Earrings')"><div class="cat-img"><img src="https://www.figma.com/api/mcp/asset/d69d0367-9180-4e0f-8956-7879456eb1ec" alt="Earrings"/></div><h3>Earrings</h3></div>
+      <div class="cat-card" onclick="goListing('Rings')"><div class="cat-img"><img src="https://www.figma.com/api/mcp/asset/dc2e72c8-6776-4509-a107-9ff890d48c18" alt="Rings"/></div><h3>Rings</h3></div>
+      <div class="cat-card" onclick="goListing('Bracelets')"><div class="cat-img"><img src="https://www.figma.com/api/mcp/asset/b655356d-2eae-4ca2-90f2-08f9a6b8643f" alt="Bracelets"/></div><h3>Bracelets</h3></div>
+    </div>
+  </section>
+
+  <div class="promo-strip">
+    <div><h3>✨ Fresh Drop</h3><p>New arrivals every week — don't miss out</p></div>
+    <div class="promo-imgs">
+      <img src="https://www.figma.com/api/mcp/asset/80a4b0c9-019c-42fa-a214-77248875de33" alt=""/>
+      <img src="https://www.figma.com/api/mcp/asset/09c1bfd4-a025-46d8-90ee-ccc0aa1e54c3" alt=""/>
+    </div>
+  </div>
+
+  <section class="section" id="featured">
+    <div class="sec-head"><h2>Featured Collection</h2><p>Handpicked pieces for the discerning collector</p></div>
+    <div class="prod-grid" id="home-prod-grid"></div>
+    <div style="text-align:center"><button class="btn btn-outline" onclick="goListing('All')">View All Products</button></div>
+  </section>
+
+  <section class="section" id="offers" style="background:var(--white)">
+    <div class="sec-head"><h2>Exclusive Offers</h2><p>Discover luxury at unbeatable prices</p></div>
+    <div class="offers-grid">
+      <div class="offer-big"><img src="https://www.figma.com/api/mcp/asset/3d810021-4b40-486d-a06a-3d823e45a5d3" alt=""/><div class="ot"><h3>Sparkle for Every Occasion Under ₹999</h3><p>Trendy. Elegant. Wedding-Ready.</p><button class="btn-sm" onclick="goListingPrice(999)">Shop Now</button></div></div>
+      <div class="offer-sm-col">
+        <div class="offer-sm"><img src="https://www.figma.com/api/mcp/asset/9e39c2a9-64c7-4fe8-8d26-cc7b7e4242eb" alt=""/><div class="ot" style="background:linear-gradient(135deg,rgba(0,0,0,.52),rgba(0,0,0,.18))"><h3>Elevate Your Elegance Under ₹1,299</h3><button class="btn-sm" onclick="goListingPrice(1299)">Shop Now</button></div></div>
+        <div class="offer-sm lt"><img src="https://www.figma.com/api/mcp/asset/cc2e7585-98ed-4060-8cb0-e29c8d58ec30" alt=""/><div class="ot" style="background:rgba(255,255,255,.15)"><h3 style="color:#111">Indulge in Luxury Under ₹1,499</h3><button class="btn-sm" onclick="goListingPrice(1499)">Shop Now</button></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head"><h2>Curated Combos</h2><p>Complete your look with perfectly paired sets</p></div>
+    <div class="combo-grid">
+      <div class="combo-card"><img class="combo-hero" src="https://www.figma.com/api/mcp/asset/67f999b4-0694-43d9-bf43-b28547460b34" alt=""/><div class="combo-thumbs"><img src="https://www.figma.com/api/mcp/asset/da0cf800-dfef-4628-bcfe-2902085892af" alt=""/><img src="https://www.figma.com/api/mcp/asset/fac8fee1-dbd4-49f9-9116-acab3d335355" alt=""/><img src="https://www.figma.com/api/mcp/asset/afa42964-dcb7-40e6-9e62-9607ce44b2d0" alt=""/></div><div class="combo-foot"><button class="btn btn-black" style="width:100%;padding:12px;font-size:14px" onclick="addComboCart('combo-0','Wedding Bridal Combo',2499,'https://www.figma.com/api/mcp/asset/67f999b4-0694-43d9-bf43-b28547460b34')">Add Combo to Cart – ₹2,499</button></div></div>
+      <div class="combo-card"><img class="combo-hero" src="https://www.figma.com/api/mcp/asset/951038b8-6ea9-4a77-b4f5-5d292388b16e" alt=""/><div class="combo-thumbs"><img src="https://www.figma.com/api/mcp/asset/da0cf800-dfef-4628-bcfe-2902085892af" alt=""/><img src="https://www.figma.com/api/mcp/asset/fac8fee1-dbd4-49f9-9116-acab3d335355" alt=""/><img src="https://www.figma.com/api/mcp/asset/afa42964-dcb7-40e6-9e62-9607ce44b2d0" alt=""/></div><div class="combo-foot"><button class="btn btn-black" style="width:100%;padding:12px;font-size:14px" onclick="addComboCart('combo-1','Daily Wear Elegance Set',3199,'https://www.figma.com/api/mcp/asset/951038b8-6ea9-4a77-b4f5-5d292388b16e')">Add Combo to Cart – ₹3,199</button></div></div>
+      <div class="combo-card"><img class="combo-hero" src="https://www.figma.com/api/mcp/asset/5590e7af-7d7c-47ef-8055-b261201234cc" alt=""/><div class="combo-thumbs"><img src="https://www.figma.com/api/mcp/asset/da0cf800-dfef-4628-bcfe-2902085892af" alt=""/><img src="https://www.figma.com/api/mcp/asset/fac8fee1-dbd4-49f9-9116-acab3d335355" alt=""/><img src="https://www.figma.com/api/mcp/asset/afa42964-dcb7-40e6-9e62-9607ce44b2d0" alt=""/></div><div class="combo-foot"><button class="btn btn-black" style="width:100%;padding:12px;font-size:14px" onclick="addComboCart('combo-2','Festival Collection Combo',2899,'https://www.figma.com/api/mcp/asset/5590e7af-7d7c-47ef-8055-b261201234cc')">Add Combo to Cart – ₹2,899</button></div></div>
+    </div>
+  </section>
+
+  <section class="ig-sec">
+    <div class="sec-head"><h2>💖 Follow Us on Instagram</h2><p>See how our customers style their favourite pieces.</p></div>
+    <div style="text-align:center;margin-bottom:30px"><a href="https://instagram.com" target="_blank" class="btn btn-black"><svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>View on Instagram</a></div>
+    <div class="ig-grid">
+      <div class="ig-item"><img src="https://www.figma.com/api/mcp/asset/4e6d5073-5d7d-4302-9a84-9db15b8e29fb" alt=""/><div class="ig-ov"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>View</div></div>
+      <div class="ig-item"><img src="https://www.figma.com/api/mcp/asset/148dae58-2397-4de1-b314-b5e8fcb238a7" alt=""/><div class="ig-ov"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>View</div></div>
+      <div class="ig-item"><img src="https://www.figma.com/api/mcp/asset/93362fd0-28e8-4f0d-a4a9-20836e29d771" alt=""/><div class="ig-ov"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>View</div></div>
+      <div class="ig-item"><img src="https://www.figma.com/api/mcp/asset/43386190-0a27-4319-9db3-670d8999d159" alt=""/><div class="ig-ov"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>View</div></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-grid">
+      <div class="foot-brand"><h2>VK Accessories</h2><p>Exquisite jewelry crafted with passion. Timeless collection of necklaces, rings, and more.</p><div class="soc-row"><button class="soc-btn"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></button><button class="soc-btn"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/></svg></button><button class="soc-btn"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></button></div></div>
+      <div class="foot-col"><h3>Shop</h3><ul><li><a onclick="goListing('Necklaces')">Necklaces</a></li><li><a onclick="goListing('Earrings')">Earrings</a></li><li><a onclick="goListing('Rings')">Rings</a></li><li><a onclick="goListing('Bracelets')">Bracelets</a></li><li><a onclick="goListing('Bangles')">Bangles</a></li><li><a onclick="goListing('Watches')">Watches</a></li></ul></div>
+      <div class="foot-col"><h3>Customer Service</h3><ul><li><a href="#">Contact Us</a></li><li><a href="#">Shipping &amp; Returns</a></li><li><a href="#">Track Order</a></li><li><a href="#">Size Guide</a></li><li><a href="#">FAQs</a></li></ul></div>
+      <div class="foot-col"><h3>Company</h3><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Our Story</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 VK Accessories. All rights reserved.</span><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+  </footer>
+</div>
+
+<!-- ════════════════════════ PAGE: LISTING ════════════════════════ -->
+<div class="page" id="page-listing">
+  <div class="listing-hero">
+    <img src="https://www.figma.com/api/mcp/asset/63c980c3-b985-41e7-999d-7c7b98d14da1" alt="Category" id="listing-hero-img"/>
+    <div class="listing-hero-ov"></div>
+    <div class="listing-hero-txt"><h1 id="listing-title">All Jewellery</h1></div>
+  </div>
+  <div class="breadcrumb"><span onclick="navigate('home')">Home</span><span class="sep">›</span><span id="listing-breadcrumb">All</span></div>
+  <div class="listing-toolbar">
+    <button class="filter-btn" onclick="toggleFilters()"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Filters</button>
+    <div class="sort-wrap">
+      <span id="listing-count" style="color:var(--mid);font-size:13px">0 Products</span>
+      <span>Sort by:</span>
+      <select id="sort-select" onchange="renderListing()">
+        <option value="default">Best Sellers</option>
+        <option value="priceLow">Price: Low to High</option>
+        <option value="priceHigh">Price: High to Low</option>
+        <option value="rating">Top Rated</option>
+      </select>
+    </div>
+  </div>
+  <div class="listing-grid" id="listing-grid"></div>
+  <div style="text-align:center;padding:32px 0"><button class="btn btn-outline" id="load-more-btn" onclick="loadMoreListing()">Load More</button></div>
+  <!-- listing footer same -->
+  <footer>
+    <div class="foot-grid">
+      <div class="foot-brand"><h2>VK Accessories</h2><p>Exquisite jewelry crafted with passion.</p><div class="soc-row"><button class="soc-btn"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></button></div></div>
+      <div class="foot-col"><h3>Shop</h3><ul><li><a onclick="goListing('Necklaces')">Necklaces</a></li><li><a onclick="goListing('Earrings')">Earrings</a></li><li><a onclick="goListing('Rings')">Rings</a></li><li><a onclick="goListing('Bracelets')">Bracelets</a></li></ul></div>
+      <div class="foot-col"><h3>Customer Service</h3><ul><li><a href="#">Contact Us</a></li><li><a href="#">Track Order</a></li><li><a href="#">FAQs</a></li></ul></div>
+      <div class="foot-col"><h3>Company</h3><ul><li><a href="#">About Us</a></li><li><a href="#">Our Story</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 VK Accessories. All rights reserved.</span><a href="#">Privacy Policy</a></div>
+  </footer>
+</div>
+
+<!-- Filter Sidebar -->
+<div class="overlay" id="filter-overlay" onclick="toggleFilters()"></div>
+<div class="filter-sidebar" id="filter-sidebar">
+  <div class="fs-head"><h3>Filters</h3><button class="fs-close" onclick="toggleFilters()">✕</button></div>
+  <div class="fs-body">
+    <div class="fs-section"><h4>Category</h4><div class="fs-chips" id="filter-cats"></div></div>
+    <div class="fs-section"><h4>Price Range</h4><div class="price-range"><input type="range" min="500" max="60000" value="60000" id="price-slider" oninput="document.getElementById('price-max-label').textContent='₹'+Number(this.value).toLocaleString('en-IN');renderListing()"/><div class="pr-labels"><span>₹500</span><span id="price-max-label">₹60,000</span></div></div></div>
+    <div class="fs-section"><h4>Rating</h4><div class="fs-chips" id="filter-ratings"></div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════ PAGE: PRODUCT DETAIL ════════════════════════ -->
+<div class="page" id="page-detail">
+  <div class="breadcrumb" id="detail-breadcrumb"></div>
+  <div class="pd-wrap">
+    <div class="pd-left">
+      <div class="pd-thumbs" id="pd-thumbs"></div>
+      <div class="pd-main"><img id="pd-main-img" src="" alt=""/></div>
+    </div>
+    <div class="pd-right">
+      <h1 class="pd-title" id="pd-title"></h1>
+      <div class="pd-sku" id="pd-sku"></div>
+      <div class="pd-price-row"><span class="pd-pnow" id="pd-pnow"></span><span class="pd-pold" id="pd-pold"></span></div>
+      <div class="pd-tax">MRP incl. of all taxes</div>
+      <div class="pd-rating" id="pd-rating"></div>
+      <div class="pd-section-lbl">Choose Colour</div>
+      <div class="color-opts" id="pd-colors"></div>
+      <div class="pd-section-lbl">Size</div>
+      <div class="size-opts" id="pd-sizes"></div>
+      <div class="pd-low-stock" id="pd-stock"></div>
+      <div class="pd-section-lbl">Quantity</div>
+      <div class="qty-ctrl">
+        <button onclick="changeDetailQty(-1)">−</button>
+        <span id="detail-qty">1</span>
+        <button onclick="changeDetailQty(1)">+</button>
+      </div>
+      <div class="pd-actions">
+        <button class="btn btn-outline" style="font-size:16px" onclick="detailBuyNow()">Buy Now</button>
+        <button class="btn btn-black" style="font-size:16px" onclick="detailOpenAccPanel()">Add to Cart</button>
+      </div>
+      <div class="trust-bar">
+        <div class="trust-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg><strong>50K+</strong><p>Happy Customers</p></div>
+        <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><strong>24/7</strong><p>Dedicated Support</p></div>
+        <div class="trust-item"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><strong>6–7 days</strong><p>Delivered within 6–7 working days</p></div>
+      </div>
+      <div class="accordion">
+        <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Product Description <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div><div class="acc-body">Handcrafted with care using premium materials. Each piece is inspected for quality and craftsmanship. Ideal for gifting or personal use. Comes in an elegant gift box.</div></div>
+        <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Refund and Return Policy <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div><div class="acc-body">Returns accepted within 7 days of delivery. Items must be unused and in original packaging. Refunds are processed within 5–7 business days. Contact our support team to initiate a return.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="also-like">
+    <h2>You May Also Like</h2>
+    <div class="prod-grid" id="also-like-grid"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-grid">
+      <div class="foot-brand"><h2>VK Accessories</h2><p>Exquisite jewelry crafted with passion. Timeless collection of necklaces, rings, and more.</p><div class="soc-row"><button class="soc-btn"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></button><button class="soc-btn"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/></svg></button><button class="soc-btn"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></button></div></div>
+      <div class="foot-col"><h3>Shop</h3><ul><li><a onclick="goListing('Necklaces')">Necklaces</a></li><li><a onclick="goListing('Earrings')">Earrings</a></li><li><a onclick="goListing('Rings')">Rings</a></li><li><a onclick="goListing('Bracelets')">Bracelets</a></li><li><a onclick="goListing('Bangles')">Bangles</a></li><li><a onclick="goListing('Watches')">Watches</a></li></ul></div>
+      <div class="foot-col"><h3>Customer Service</h3><ul><li><a href="#">Contact Us</a></li><li><a href="#">Shipping &amp; Returns</a></li><li><a href="#">Track Order</a></li><li><a href="#">Size Guide</a></li><li><a href="#">FAQs</a></li></ul></div>
+      <div class="foot-col"><h3>Company</h3><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Our Story</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 VK Accessories. All rights reserved.</span><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+  </footer>
+</div>
+
+<!-- ════════════════════════ PAGE: CART ════════════════════════ -->
+<div class="page" id="page-cart">
+  <div class="cart-page">
+    <h1>Your Cart</h1>
+    <div class="cart-layout">
+      <div class="cart-items-col" id="cart-items-col"></div>
+      <div class="order-sum">
+        <h2>Order Summary</h2>
+        <div class="sum-row"><span>Subtotal</span><span id="cart-sub">₹0</span></div>
+        <div class="sum-row"><span>Shipping</span><span id="cart-ship">FREE</span></div>
+        <div class="sum-row"><span>Discount</span><span id="cart-disc" style="color:var(--green)">₹0</span></div>
+        <div class="sum-row total"><span>Total</span><span id="cart-total">₹0</span></div>
+        <div class="coupon-row"><input type="text" placeholder="Coupon code" id="coupon-input"/><button onclick="applyCoupon()">Apply</button></div>
+        <button class="checkout-btn" onclick="navigate('checkout')">Proceed to Checkout</button>
+        <button class="btn btn-outline" style="width:100%;margin-top:10px;font-size:14px" onclick="navigate('home')">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ PAGE: CHECKOUT ════════════════════════ -->
+<div class="page" id="page-checkout">
+  <div class="checkout-page">
+    <h1>Checkout</h1>
+    <div class="checkout-layout">
+      <!-- LEFT: FORM -->
+      <div>
+        <!-- Step 1: Contact -->
+        <div class="checkout-form-card">
+          <h2><span class="step-num">1</span> Contact Information</h2>
+          <div class="form-grid" style="margin-bottom:14px">
+            <div class="form-field"><label>First Name</label><input type="text" placeholder="Anjali" id="co-fname"/></div>
+            <div class="form-field"><label>Last Name</label><input type="text" placeholder="Sharma" id="co-lname"/></div>
+          </div>
+          <div class="form-grid" style="margin-bottom:0">
+            <div class="form-field"><label>Email Address</label><input type="email" placeholder="anjali@email.com" id="co-email"/></div>
+            <div class="form-field"><label>Phone Number</label><input type="tel" placeholder="+91 98765 43210" id="co-phone"/></div>
+          </div>
+        </div>
+
+        <!-- Step 2: Delivery -->
+        <div class="checkout-form-card">
+          <h2><span class="step-num">2</span> Delivery Address</h2>
+          <div class="form-grid full" style="margin-bottom:14px">
+            <div class="form-field"><label>Full Address</label><input type="text" placeholder="House no., Street name, Area / Locality" id="co-addr"/></div>
+          </div>
+          <div class="form-grid" style="margin-bottom:14px">
+            <div class="form-field"><label>City</label><input type="text" placeholder="Chennai" id="co-city"/></div>
+            <div class="form-field"><label>Pincode</label><input type="text" placeholder="600 001" maxlength="6" id="co-pin"/></div>
+          </div>
+          <div class="form-grid" style="margin-bottom:0">
+            <div class="form-field"><label>State</label>
+              <select id="co-state">
+                <option value="">Select State</option>
+                <option>Tamil Nadu</option><option>Maharashtra</option><option>Karnataka</option>
+                <option>Delhi</option><option>Gujarat</option><option>Rajasthan</option>
+                <option>West Bengal</option><option>Telangana</option><option>Kerala</option>
+                <option>Uttar Pradesh</option>
+              </select>
+            </div>
+            <div class="form-field"><label>Country</label>
+              <select><option>India</option></select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Payment -->
+        <div class="checkout-form-card">
+          <h2><span class="step-num">3</span> Payment Method</h2>
+          <div class="pay-methods">
+            <div class="pay-opt on" onclick="selectPay(this)">
+              <input type="radio" name="pay" checked/>
+              <label>UPI / Google Pay / PhonePe</label>
+              <span class="pay-opt-icon">📱</span>
+            </div>
+            <div class="pay-opt" onclick="selectPay(this)">
+              <input type="radio" name="pay"/>
+              <label>Credit / Debit Card</label>
+              <span class="pay-opt-icon">💳</span>
+            </div>
+            <div class="pay-opt" onclick="selectPay(this)">
+              <input type="radio" name="pay"/>
+              <label>Net Banking</label>
+              <span class="pay-opt-icon">🏦</span>
+            </div>
+            <div class="pay-opt" onclick="selectPay(this)">
+              <input type="radio" name="pay"/>
+              <label>Cash on Delivery</label>
+              <span class="pay-opt-icon">💵</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="place-order-btn" onclick="placeOrder()">
+          Place Order &nbsp;→
+        </button>
+      </div>
+
+      <!-- RIGHT: ORDER SUMMARY -->
+      <div class="co-sum-card">
+        <h2>Order Summary</h2>
+        <div class="co-items-list" id="checkout-items"></div>
+        <hr class="co-divider"/>
+        <div class="co-row"><span>Subtotal</span><span id="co-sub">₹0</span></div>
+        <div class="co-row"><span>Shipping</span><span style="color:var(--green)">FREE</span></div>
+        <div class="co-row"><span>Discount</span><span id="co-disc-row" style="color:var(--green)">₹0</span></div>
+        <div class="co-row total"><span>Total</span><span id="co-total">₹0</span></div>
+        <div class="secure-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Secure & Encrypted Payment
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ PAGE: SUCCESS ════════════════════════ -->
+<div class="page" id="page-success">
+  <div class="success-page">
+    <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h1>Order Placed! 🎉</h1>
+    <p>Thank you for shopping with VK Accessories. Your order has been confirmed and will be delivered within 6–7 working days.</p>
+    <div class="order-id" id="success-order-id">Order ID: #VK2026001</div>
+    <button class="btn btn-black" onclick="navigate('home')">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- ════════════════════════ ACCESSORIES SIDE PANEL ════════════════════════ -->
+<div class="acc-panel-overlay" id="acc-overlay" onclick="closeAccPanel()"></div>
+<div class="acc-panel" id="acc-panel">
+  <div class="acc-panel-head">
+    <div>
+      <h2>Complete the Look ✨</h2>
+      <p>Select matching accessories to pair with your item</p>
+    </div>
+    <button class="acc-close" onclick="closeAccPanel()">✕</button>
+  </div>
+  <div class="acc-selected-strip" id="acc-selected-strip">
+    <img id="acc-main-img" src="" alt=""/>
+    <div class="acc-sel-info">
+      <h4 id="acc-main-name"></h4>
+      <span id="acc-main-price"></span>
+    </div>
+  </div>
+  <div class="acc-panel-body" id="acc-panel-body">
+    <!-- dynamically filled -->
+  </div>
+  <div class="acc-panel-footer">
+    <div class="acc-summary">
+      <div>
+        <div class="acc-summary-txt" id="acc-count-txt">No accessories selected</div>
+        <div class="acc-total" id="acc-grand-total"></div>
+      </div>
+    </div>
+    <div class="acc-footer-btns">
+      <button class="acc-btn-cart" onclick="accAddToCart()">
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;display:inline;margin-right:6px;vertical-align:middle"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Add to Cart
+      </button>
+      <button class="acc-btn-buy" onclick="accBuyNow()">Buy Now →</button>
+    </div>
+  </div>
+</div>
+
+<!-- PINCODE MODAL -->
+<div class="modal-overlay" id="m-overlay" onclick="closePincodeModal()"></div>
+<div class="modal" id="m-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closePincodeModal()">✕</button>
+    <h3>Update Delivery Pincode</h3>
+    <p>Enter your 6-digit pincode to check delivery availability.</p>
+    <input type="text" maxlength="6" placeholder="Enter pincode" id="pin-input" inputmode="numeric"/>
+    <button class="mb" onclick="savePincode()">Check Delivery</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
