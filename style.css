@@ -413,9 +413,12 @@ footer{background:var(--dark);color:#d1d5dc;padding:56px 44px 0}
   .cart-page h1 { font-size: 26px; margin-bottom: 24px; }
   .cart-row { gap: 14px; padding: 16px 0; }
   .cart-row img { width: 90px; height: 90px; }
-  .checkout-layout { gap: 20px; }
+  .checkout-layout { gap: 24px; }
   .checkout-form-card { padding: 20px 16px; margin-bottom: 16px; }
-  .form-grid { gap: 10px; }
+  .form-grid { gap: 12px; }
+  .form-field input, .form-field select { padding: 12px 14px; font-size: 14px; }
+  .pay-opt { padding: 16px 18px; }
+  .place-order-btn { padding: 16px; font-size: 16px; }
   
   /* Footer */
   .foot-grid { grid-template-columns: 1fr; gap: 24px; }
@@ -444,6 +447,15 @@ footer{background:var(--dark);color:#d1d5dc;padding:56px 44px 0}
   
   /* Accessories */
   .acc-panel { width: 100%; max-width: 100%; right: -100%; }
+}
+
+/* MEDIUM SCREENS - Tablets (768px to 1024px) */
+@media(max-width:1024px) and (min-width:769px){
+  /* Checkout */
+  .checkout-page { padding: 32px 24px 48px; }
+  .checkout-layout { grid-template-columns: 1fr; gap: 32px; }
+  .checkout-form-card { padding: 24px 20px; }
+  .co-sum-card { position: static; margin-top: 0; }
 }
 
 /* MOBILE - Small (480px and below) */
@@ -570,12 +582,18 @@ footer{background:var(--dark);color:#d1d5dc;padding:56px 44px 0}
   /* Checkout */
   .checkout-page { padding: 16px 12px 40px; }
   .checkout-page h1 { font-size: 20px; margin-bottom: 16px; }
+  .checkout-layout { grid-template-columns: 1fr; gap: 20px; }
   .checkout-form-card { padding: 16px 12px; margin-bottom: 12px; }
   .checkout-form-card h2 { font-size: 15px; margin-bottom: 14px; }
-  .form-grid { gap: 8px; }
+  .form-grid { grid-template-columns: 1fr; gap: 12px; }
   .form-field label { font-size: 11px; }
-  .form-field input, .form-field select { padding: 10px 12px; font-size: 13px; }
-  .place-order-btn { padding: 14px; font-size: 15px; }
+  .form-field input, .form-field select { padding: 12px; font-size: 14px; }
+  .pay-methods { gap: 8px; }
+  .pay-opt { padding: 14px 12px; gap: 12px; }
+  .pay-opt label { font-size: 13px; }
+  .pay-opt-icon { font-size: 18px; }
+  .place-order-btn { padding: 16px; font-size: 16px; margin-top: 16px; }
+  .co-sum-card { margin-top: 0; }
   
   /* Buttons */
   .btn { padding: 12px 20px; font-size: 13px; }
@@ -749,6 +767,8 @@ footer{background:var(--dark);color:#d1d5dc;padding:56px 44px 0}
 .pay-opt-icon{font-size:20px;margin-left:auto}
 .place-order-btn{width:100%;padding:16px;background:#111;color:#fff;border:none;border-radius:var(--r);font-size:17px;font-weight:600;font-family:var(--serif);cursor:pointer;transition:background var(--t);margin-top:4px}
 .place-order-btn:hover{background:#333}
+.co-sum-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:24px;position:sticky;top:100px}
+.co-sum-card h2{font-size:18px;font-weight:600;margin-bottom:18px;color:var(--dark)}
 /* order summary card */
 .co-sum-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:24px;position:sticky;top:100px}
 .co-sum-card h2{font-size:18px;font-weight:600;margin-bottom:18px;color:var(--dark)}
