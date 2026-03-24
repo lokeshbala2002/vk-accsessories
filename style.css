@@ -548,8 +548,8 @@ footer{background:var(--dark);color:#d1d5dc;padding:56px 44px 0}
   .add-btn { padding: 11px; font-size: 14px; }
   
   /* Combo Grid */
-  .combo-grid { display: flex; overflow-x: auto; gap: 14px; scroll-behavior: smooth; }
-  .combo-card { min-width: 280px; flex-shrink: 0; }
+  .combo-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .combo-card { min-width: auto; flex-shrink: initial; }
   .combo-hero { height: 220px; }
   .combo-thumbs { gap: 8px; padding: 0 10px; }
   .combo-thumbs img { width: 60px; height: 60px; }
@@ -686,8 +686,8 @@ footer{background:var(--dark);color:#d1d5dc;padding:56px 44px 0}
   .sec-head p { font-size: 13px; }
   .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .cat-img img { height: 180px; }
-  .combo-grid { display: flex; overflow-x: auto; gap: 10px; scroll-behavior: smooth; }
-  .combo-card { min-width: 260px; flex-shrink: 0; }
+  .combo-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .combo-card { min-width: auto; flex-shrink: initial; }
   .ig-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .ad-btn { font-size: 12px; padding: 9px; }
   .pnow { font-size: 15px; }
