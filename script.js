@@ -613,3 +613,42 @@ function closeAccPanel(){
 renderHomeProducts();
 buildFilterUI();
 renderListing();
+
+function toggleMenu() {
+  const menu = document.getElementById("mobileMenu");
+  const toggle = document.querySelector(".menu-toggle");
+  
+  menu.classList.toggle("open");
+  toggle.classList.toggle("open");
+  
+  // Change icon between hamburger (☰) and close (✕)
+  toggle.textContent = toggle.classList.contains("open") ? "✕" : "☰";
+}
+
+function closeMenu() {
+  const menu = document.getElementById("mobileMenu");
+  const toggle = document.querySelector(".menu-toggle");
+  menu.classList.remove("open");
+  toggle.classList.remove("open");
+  toggle.textContent = "☰";
+}
+
+// Close mobile menu when a navigation item is clicked
+document.addEventListener('DOMContentLoaded', function() {
+  const mobileMenuBtn = document.querySelectorAll('#mobileMenu .nav-btn');
+  mobileMenuBtn.forEach(btn => {
+    btn.addEventListener('click', closeMenu);
+  });
+  
+  // Close menu when clicking outside
+  document.addEventListener('click', function(event) {
+    const menu = document.getElementById("mobileMenu");
+    const toggle = document.querySelector(".menu-toggle");
+    const isClickInsideMenu = menu.contains(event.target);
+    const isClickOnToggle = toggle.contains(event.target);
+    
+    if (!isClickInsideMenu && !isClickOnToggle && menu.classList.contains("open")) {
+      closeMenu();
+    }
+  });
+});

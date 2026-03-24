@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="theme-color" content="#ffffff"/>
 <title>VK Accessories</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Urbanist:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
@@ -39,11 +42,9 @@
 <!-- HEADER (shared) -->
 <header id="main-header">
   <div class="h-top">
-    <div class="pincode" onclick="openPincodeModal()">
-      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-      <span id="pin-label">Update Delivery Pincode</span>
-      <svg viewBox="0 0 24 24" style="width:11px;height:11px"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+  ☰
+</div>
     <div class="logo" onclick="navigate('home')">VK Accessories</div>
     <div class="h-icons">
       <button class="icon-btn" onclick="toggleSearch()" title="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
@@ -51,13 +52,27 @@
       <button class="icon-btn" onclick="navigate('cart')" title="Cart"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="badge" id="cart-badge">0</span></button>
     </div>
   </div>
+  <div class="pincode" onclick="openPincodeModal()">
+    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    <span id="pin-label">Update Delivery Pincode</span>
+    <svg viewBox="0 0 24 24" style="width:11px;height:11px"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
   <div id="search-bar" style="display:none;margin-bottom:10px">
     <div style="display:flex;align-items:center;gap:10px;border:1.5px solid var(--border);border-radius:8px;padding:8px 14px">
       <svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:#999;stroke-width:2;flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <input type="search" placeholder="Search jewellery…" oninput="handleSearch(event)" style="border:none;outline:none;font-size:14px;font-family:var(--serif);width:100%;background:transparent"/>
     </div>
   </div>
-  <nav class="nav">
+  <nav class="main-nav">
+ <button class="nav-btn" onclick="goListing('Necklaces')">Necklaces <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <button class="nav-btn" onclick="goListing('Bangles')">Bangles <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <button class="nav-btn" onclick="goListing('Watches')">Watches <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <button class="nav-btn" onclick="goListing('Bracelets')">Bracelets <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <button class="nav-btn" onclick="goListing('Rings')">Rings <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <div class="nav-div"></div>
+    <button class="nav-btn" onclick="navigate('home');setTimeout(()=>document.getElementById('offers')?.scrollIntoView({behavior:'smooth'}),200)">Offers</button>
+  </nav>
+  <nav id="mobileMenu">
     <button class="nav-btn" onclick="goListing('Necklaces')">Necklaces <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
     <button class="nav-btn" onclick="goListing('Bangles')">Bangles <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
     <button class="nav-btn" onclick="goListing('Watches')">Watches <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
